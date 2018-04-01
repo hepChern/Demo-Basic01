@@ -35,12 +35,12 @@ void rf101_basics()
 
    // Declare variables x,mean,sigma with associated name, title, initial value and allowed range
    // Chern: make parameter
-   double mean_value = atof( arguments["mean"].c_str() );
-   double sigma1_value = atof( arguments["sigma1"].c_str() );
-   double sigma2_value = atof( arguments["sigma2"].c_str() );
+   double mean_value = atof( parameters["mean"].c_str() );
+   double sigma1_value = atof( parameters["sigma1"].c_str() );
+   double sigma2_value = atof( parameters["sigma2"].c_str() );
    RooRealVar x("x","x",-10,10) ;
    RooRealVar mean("mean","mean of gaussian", mean_value,-10,10) ;
-   RooRealVar sigma("sigma","width of gaussian", sigma_value,0.1,10) ;
+   RooRealVar sigma("sigma","width of gaussian", sigma1_value,0.1,10) ;
 
    // Build gaussian p.d.f in terms of x,mean and sigma
    RooGaussian gauss("gauss","gaussian PDF",x,mean,sigma) ;
@@ -68,7 +68,7 @@ void rf101_basics()
 
    // Generate a dataset of 1000 events in x from gauss
    // Chern: make parameter
-   int NEvents = atoi( arguments["Nevents"] );
+   int NEvents = atoi( parameters["Nevents"] );
    RooDataSet* data = gauss.generate(x, NEvents) ;
 
    // Make a second plot frame in x and draw both the

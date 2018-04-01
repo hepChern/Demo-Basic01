@@ -3,4 +3,4 @@ impressions=['5b7839b462af43fe8ab05ffdbaeffa84', '718ddaa099ad4ec2984359d98e3548
 main_file=u'main.py'
 object_type=u'algorithm'
 pred_impression=[]
-successors=['task1', 'task2', 'task3', 'task4']
+successors=['task1', 'task2']

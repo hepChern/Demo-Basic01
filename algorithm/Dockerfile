@@ -17,7 +17,7 @@ ENTRYPOINT ["./entrypoint.sh"]
 # Add all the code you use to docker image
 ADD rf101_basics.C $HOME/rf101_basics.C
 
-CMD ["root -b -q efficiency.C"]
+CMD ["root -b -q rf101_basics.C"]
 # other examples:
 # ENTRYPOINT ["python", "-b", "-q", "test2.C"]
 

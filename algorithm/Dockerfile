@@ -15,8 +15,7 @@ ENTRYPOINT ["./entrypoint.sh"]
 # !! Please only modify the contents between the two seperation line
 
 # Add all the code you use to docker image
-ADD lhcbStyle.h $HOME/lhcbStyle.h
-ADD efficiency.C $HOME/efficiency.C
+ADD rf101_basics.C $HOME/rf101_basics.C
 
 CMD ["root -b -q efficiency.C"]
 # other examples:

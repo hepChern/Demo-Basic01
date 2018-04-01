@@ -1,3 +1,7 @@
+// This is an algorithm modified from roofit/rf101
+// The mean, the sigma and the statics are modified to become parameter.
+// Search ``Chern'' to see where the modification is at.
+//
 /// \file
 /// \ingroup tutorial_roofit
 /// \notebook -js
@@ -10,7 +14,7 @@
 /// \macro_image
 /// \macro_output
 /// \macro_code
-/// \author 07/2008 - Wouter Verkerke 
+/// \author 07/2008 - Wouter Verkerke
 
 
 #include "RooRealVar.h"
@@ -19,21 +23,27 @@
 #include "TCanvas.h"
 #include "RooPlot.h"
 #include "TAxis.h"
+// Chern: add the include, arguments
+#include "arguments"
 using namespace RooFit ;
 
 
 void rf101_basics()
 {
-   // S e t u p   m o d e l 
+   // S e t u p   m o d e l
    // ---------------------
 
    // Declare variables x,mean,sigma with associated name, title, initial value and allowed range
+   // Chern: make parameter
+   double mean_value = atof( arguments["mean"].c_str() );
+   double sigma1_value = atof( arguments["sigma1"].c_str() );
+   double sigma2_value = atof( arguments["sigma2"].c_str() );
    RooRealVar x("x","x",-10,10) ;
-   RooRealVar mean("mean","mean of gaussian",1,-10,10) ;
-   RooRealVar sigma("sigma","width of gaussian",1,0.1,10) ;
+   RooRealVar mean("mean","mean of gaussian", mean_value,-10,10) ;
+   RooRealVar sigma("sigma","width of gaussian", sigma_value,0.1,10) ;
 
    // Build gaussian p.d.f in terms of x,mean and sigma
-   RooGaussian gauss("gauss","gaussian PDF",x,mean,sigma) ;  
+   RooGaussian gauss("gauss","gaussian PDF",x,mean,sigma) ;
 
    // Construct plot frame in 'x'
    RooPlot* xframe = x.frame(Title("Gaussian p.d.f.")) ;
@@ -42,28 +52,31 @@ void rf101_basics()
    // P l o t   m o d e l   a n d   c h a n g e   p a r a m e t e r   v a l u e s
    // ---------------------------------------------------------------------------
 
-   // Plot gauss in frame (i.e. in x) 
+   // Plot gauss in frame (i.e. in x)
    gauss.plotOn(xframe) ;
 
    // Change the value of sigma to 3
-   sigma.setVal(3) ;
+   // Chern: make parameter
+   sigma.setVal(sigma2_value) ;
 
    // Plot gauss in frame (i.e. in x) and draw frame on canvas
    gauss.plotOn(xframe,LineColor(kRed)) ;
-  
 
-   // G e n e r a t e   e v e n t s 
+
+   // G e n e r a t e   e v e n t s
    // -----------------------------
 
    // Generate a dataset of 1000 events in x from gauss
-   RooDataSet* data = gauss.generate(x,10000) ;  
-  
-   // Make a second plot frame in x and draw both the 
+   // Chern: make parameter
+   int NEvents = atoi( arguments["Nevents"] );
+   RooDataSet* data = gauss.generate(x, NEvents) ;
+
+   // Make a second plot frame in x and draw both the
    // data and the p.d.f in the frame
    RooPlot* xframe2 = x.frame(Title("Gaussian p.d.f. with data")) ;
    data->plotOn(xframe2) ;
    gauss.plotOn(xframe2) ;
-  
+
 
    // F i t   m o d e l   t o   d a t a
    // -----------------------------
@@ -80,6 +93,8 @@ void rf101_basics()
    c->Divide(2) ;
    c->cd(1) ; gPad->SetLeftMargin(0.15) ; xframe->GetYaxis()->SetTitleOffset(1.6) ; xframe->Draw() ;
    c->cd(2) ; gPad->SetLeftMargin(0.15) ; xframe2->GetYaxis()->SetTitleOffset(1.6) ; xframe2->Draw() ;
-  
- 
+
+   // Chern: use output folder
+   string output = folders["output"] + "/plot.png";
+   c->SaveAs(output.c_str());
 }

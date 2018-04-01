@@ -68,7 +68,7 @@ void rf101_basics()
 
    // Generate a dataset of 1000 events in x from gauss
    // Chern: make parameter
-   int NEvents = atoi( parameters["Nevents"] );
+   int NEvents = atoi( parameters["Nevents"].c_str() );
    RooDataSet* data = gauss.generate(x, NEvents) ;
 
    // Make a second plot frame in x and draw both the
